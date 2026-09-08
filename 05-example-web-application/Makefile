@@ -12,12 +12,12 @@ run-postgres:
 .PHONY: run-api-node
 run-api-node:
 	@echo Starting node api
-	cd api-node && set "DATABASE_URL=$(DATABASE_URL)" && npm run dev
+	cd api-node && DATABASE_URL=$(DATABASE_URL) npm run dev
 
 .PHONY: run-api-golang
 run-api-golang:
 	@echo Starting golang api
-	cd api-golang && set "DATABASE_URL=$(DATABASE_URL)" && go run main.go
+	cd api-golang && DATABASE_URL=$(DATABASE_URL) go run main.go
 
 .PHONY: run-client-react
 run-client-react:
