@@ -1,11 +1,22 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import heroImg from "./assets/hero.png";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "./assets/vite.svg";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [timeFromGo, setTimeFromGo] = useState<string | undefined>(undefined);
+  const [timeFromNode, setTimeFromNode] = useState<string | undefined>(undefined);
+
+  useEffect(() => {
+    fetch("/api/golang/").then((res) =>
+      res.json().then((data) => setTimeFromGo(data.now ? new Date(data.now).toLocaleString() : undefined)),
+    ).catch((err) => console.error("Error fetching Go API:", err));
+    fetch("/api/node/").then((res) =>
+      res.json().then((data) => setTimeFromNode(data.now ? new Date(data.now).toLocaleString() : undefined)),
+    ).catch((err) => console.error("Error fetching Node API:", err));
+  }, []);
 
   return (
     <>
@@ -21,6 +32,8 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
+        <p>Time from Node: {timeFromNode ?? "Loading..."}</p>
+        <p>Time from Go: {timeFromGo ?? "Loading..."}</p>
         <button
           type="button"
           className="counter"
@@ -116,7 +129,7 @@ function App() {
       <div className="ticks"></div>
       <section id="spacer"></section>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
