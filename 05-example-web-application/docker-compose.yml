@@ -1,0 +1,72 @@
+services:
+  client-react-nginx:
+    image: client-react-nginx
+    build:
+      context: ./client-react
+      dockerfile: Dockerfile
+    init: true
+    networks:
+      - frontend
+    ports:
+      - 80:8080
+    depends_on:
+      - api-node
+      - api-golang
+    restart: unless-stopped
+
+  api-node:
+    image: api-node
+    build:
+      context: ./api-node
+      dockerfile: Dockerfile
+    init: true
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/postgres
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  api-golang:
+    image: api-golang
+    build:
+      context: ./api-golang
+      dockerfile: Dockerfile
+    init: true
+    environment:
+      DATABASE_URL: postgres://postgres:password@db:5432/postgres
+      PORT: "8000"
+    networks:
+      - frontend
+      - backend
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:18.6-alpine
+    init: true
+    networks:
+      - backend
+    environment:
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql
+    restart: unless-stopped
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  pgdata:

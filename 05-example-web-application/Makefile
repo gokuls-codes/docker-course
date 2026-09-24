@@ -1,6 +1,22 @@
 DATABASE_URL:=postgres://postgres:password@localhost:5432/postgres
 DOCKER_DATABASE_URL:=postgres://postgres:password@db:5432/postgres
 
+.PHONY: compose-build
+compose-build:
+	docker compose build
+
+.PHONY: compose-up
+compose-up:
+	docker compose up
+
+.PHONY: compose-up-build
+compose-up-build:
+	docker compose up --build
+
+.PHONY: compose-down
+compose-down:
+	docker compose down
+
 .PHONY: docker-build-all
 docker-build-all:
 	docker build -t client-react-nginx -f ./client-react/Dockerfile ./client-react
