@@ -7,15 +7,33 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
   const [timeFromGo, setTimeFromGo] = useState<string | undefined>(undefined);
-  const [timeFromNode, setTimeFromNode] = useState<string | undefined>(undefined);
+  const [timeFromNode, setTimeFromNode] = useState<string | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
-    fetch("/api/golang/").then((res) =>
-      res.json().then((data) => setTimeFromGo(data.now ? new Date(data.now).toLocaleString() : undefined)),
-    ).catch((err) => console.error("Error fetching Go API:", err));
-    fetch("/api/node/").then((res) =>
-      res.json().then((data) => setTimeFromNode(data.now ? new Date(data.now).toLocaleString() : undefined)),
-    ).catch((err) => console.error("Error fetching Node API:", err));
+    fetch("/api/golang/")
+      .then((res) =>
+        res
+          .json()
+          .then((data) =>
+            setTimeFromGo(
+              data.now ? new Date(data.now).toLocaleString() : undefined,
+            ),
+          ),
+      )
+      .catch((err) => console.error("Error fetching Go API:", err));
+    fetch("/api/node/")
+      .then((res) =>
+        res
+          .json()
+          .then((data) =>
+            setTimeFromNode(
+              data.now ? new Date(data.now).toLocaleString() : undefined,
+            ),
+          ),
+      )
+      .catch((err) => console.error("Error fetching Node API:", err));
   }, []);
 
   return (
@@ -27,7 +45,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
+          <h1>Get started (test)</h1>
           <p>
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>

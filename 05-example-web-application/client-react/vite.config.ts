@@ -8,4 +8,20 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
+  server: {
+    host: true,
+    port: 5173,
+    proxy: {
+      '/api/golang': {
+        target: 'http://api-golang:8000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/golang/, ''),
+      },
+      '/api/node': {
+        target: 'http://api-node:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/node/, ''),
+      },
+    },
+  },
 })

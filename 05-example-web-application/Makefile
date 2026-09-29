@@ -1,6 +1,22 @@
 DATABASE_URL:=postgres://postgres:password@localhost:5432/postgres
 DOCKER_DATABASE_URL:=postgres://postgres:password@db:5432/postgres
 
+.PHONY: compose-dev-build
+compose-dev-build:
+	docker compose -f docker-compose-dev.yml build
+
+.PHONY: compose-dev-up
+compose-dev-up:
+	docker compose -f docker-compose-dev.yml up
+
+.PHONY: compose-dev-up-build
+compose-dev-up-build:
+	docker compose -f docker-compose-dev.yml up --build
+
+.PHONY: compose-dev-down
+compose-dev-down:
+	docker compose -f docker-compose-dev.yml down
+
 .PHONY: compose-build
 compose-build:
 	docker compose build

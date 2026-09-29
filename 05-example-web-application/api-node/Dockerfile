@@ -1,10 +1,24 @@
-FROM node:26-alpine3.23 
+FROM node:26-alpine3.23  as base
 
 WORKDIR /usr/src/app
 
-ENV NODENV=production
-
 COPY package*.json ./
+
+FROM base as dev
+
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+    npm set cache /usr/src/app/.npm && \
+    npm install 
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "run", "dev"]
+
+FROM base as production
+
+ENV NODENV=production
 
 RUN --mount=type=cache,target=/usr/src/app/.npm \
     npm set cache /usr/src/app/.npm && \
