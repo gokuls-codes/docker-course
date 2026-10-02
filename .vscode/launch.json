@@ -1,0 +1,59 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker: Attach to Node",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "address": "127.0.0.1",
+      "localRoot": "${workspaceFolder}/05-example-web-application/api-node",
+      "remoteRoot": "/usr/src/app",
+      "restart": true,
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Docker: Attach to Golang",
+      "type": "go",
+      "request": "attach",
+      "mode": "remote",
+      "port": 4000,
+      "host": "127.0.0.1",
+      "substitutePath": [
+        {
+          "from": "${workspaceFolder}/05-example-web-application/api-golang",
+          "to": "/app"
+        }
+      ]
+    },
+    {
+      "name": "Local: Launch Node API",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/05-example-web-application/api-node",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev"
+      ],
+      "restart": true,
+      "console": "integratedTerminal",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "Local: Launch Golang API",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/05-example-web-application/api-golang/main.go",
+      "cwd": "${workspaceFolder}/05-example-web-application/api-golang",
+      "env": {
+        "DATABASE_URL": "postgres://postgres:password@localhost:5432/postgres"
+      }
+    }
+  ]
+}

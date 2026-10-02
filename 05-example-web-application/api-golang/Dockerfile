@@ -17,7 +17,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8000 4000
 
 CMD ["air", "-c", ".air.toml"]
 

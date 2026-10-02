@@ -17,6 +17,20 @@ compose-dev-up-build:
 compose-dev-down:
 	docker compose -f docker-compose-dev.yml down
 
+.PHONY: compose-debug-up
+compose-debug-up:
+	docker compose -f docker-compose-dev.yml -f docker-compose-debug.yml up
+
+.PHONY: compose-debug-down
+compose-debug-down:
+	docker compose -f docker-compose-dev.yml -f docker-compose-debug.yml down
+
+.PHONY: run-tests
+run-tests:
+	docker compose -f docker-compose-dev.yml -f docker-compose-test.yml run --rm api-golang
+	docker compose -f docker-compose-dev.yml -f docker-compose-test.yml run --rm api-node
+
+
 .PHONY: compose-build
 compose-build:
 	docker compose build
