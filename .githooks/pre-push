@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+echo "==> Running pre-push tests with Docker Compose..."
+cd 05-example-web-application
+make run-tests
+echo "==> All tests passed! Proceeding with push."

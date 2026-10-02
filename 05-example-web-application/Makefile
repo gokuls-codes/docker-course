@@ -1,6 +1,10 @@
 DATABASE_URL:=postgres://postgres:password@localhost:5432/postgres
 DOCKER_DATABASE_URL:=postgres://postgres:password@db:5432/postgres
 
+.PHONY: init
+init:
+	git config core.hooksPath .githooks
+
 .PHONY: compose-dev-build
 compose-dev-build:
 	docker compose -f docker-compose-dev.yml build
