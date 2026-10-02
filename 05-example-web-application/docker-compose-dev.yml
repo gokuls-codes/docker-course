@@ -46,11 +46,16 @@ services:
     restart: unless-stopped
 
   api-golang:
-    image: api-golang
+    image: api-golang:dev
     build:
       context: ./api-golang
       dockerfile: Dockerfile
+      target: dev
     init: true
+    volumes:
+      - type: bind
+        source: ./api-golang/
+        target: /app
     environment:
       DATABASE_URL: postgres://postgres:password@db:5432/postgres
       PORT: "8000"

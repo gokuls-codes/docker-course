@@ -6,33 +6,19 @@ import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
-  const [timeFromGo, setTimeFromGo] = useState<string | undefined>(undefined);
-  const [timeFromNode, setTimeFromNode] = useState<string | undefined>(
+  const [responseFromGo, setResponseFromGo] = useState<string | undefined>(
+    undefined,
+  );
+  const [responseFromNode, setResponseFromNode] = useState<string | undefined>(
     undefined,
   );
 
   useEffect(() => {
     fetch("/api/golang/")
-      .then((res) =>
-        res
-          .json()
-          .then((data) =>
-            setTimeFromGo(
-              data.now ? new Date(data.now).toLocaleString() : undefined,
-            ),
-          ),
-      )
+      .then((res) => res.json().then((data) => setResponseFromGo(data)))
       .catch((err) => console.error("Error fetching Go API:", err));
     fetch("/api/node/")
-      .then((res) =>
-        res
-          .json()
-          .then((data) =>
-            setTimeFromNode(
-              data.now ? new Date(data.now).toLocaleString() : undefined,
-            ),
-          ),
-      )
+      .then((res) => res.json().then((data) => setResponseFromNode(data)))
       .catch((err) => console.error("Error fetching Node API:", err));
   }, []);
 
@@ -50,8 +36,12 @@ function App() {
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
-        <p>Time from Node: {timeFromNode ?? "Loading..."}</p>
-        <p>Time from Go: {timeFromGo ?? "Loading..."}</p>
+        <p>
+          response from Node: {JSON.stringify(responseFromNode) ?? "Loading..."}
+        </p>
+        <p>
+          response from Go: {JSON.stringify(responseFromGo) ?? "Loading..."}
+        </p>
         <button
           type="button"
           className="counter"
